@@ -13,8 +13,8 @@ $(".addmore").on('click',function(){
 	html += '<td><input type="text" name="quantity[]" id="quantity_'+i+'" class="form-control changesNo" autocomplete="off"  ondrop="return false;" onpaste="return false;"></td>';
 	html += '<td><input type="text" name="price[]" id="price_'+i+'" readonly class="form-control changesNo" autocomplete="off"  ondrop="return false;" onpaste="return false;"></td>';
 	html += '<td><input type="text" name="taxP[]" id="taxP_'+i+'" class="form-control changesNo autocomplete_txt" value="0" autocomplete="off"></td>';
-	html += '<td><input type="text" name="tax[]" id="tax_'+i+'" readonly class="form-control totaltaxprice changesNo autocomplete_txt" value="0" autocomplete="off"></td>';
-	html += '<td><input type="text" name="total[]" id="total_'+i+'" readonly class="form-control totalLinePrice" autocomplete="off" ondrop="return false;" onpaste="return false;"></td>';
+	html += '<td><input type="text" name="tax[]" id="tax_'+i+'" readonly class="form-control totaltaxprice changesNo autocomplete_txt" value="0" style="text-align:right;"  autocomplete="off"></td>';
+	html += '<td><input type="text" name="total[]" id="total_'+i+'" readonly class="form-control totalLinePrice"  style="text-align:right;" autocomplete="off" ondrop="return false;" onpaste="return false;"></td>';
 	html += '</tr>';
 	$('table').append(html);
 	i++;
@@ -102,11 +102,11 @@ $(document).on('change keyup blur','.changesNo',function(){
 	if(taxpercent!='' && quantity!='' && price !='')
 	{
 		tax = (((parseFloat(price)*parseFloat(quantity)).toFixed(2)) * taxpercent) / 100;
-		$('#tax_'+id[1]).val(tax);
+		$('#tax_'+id[1]).val(tax.toFixed(2));
 		total = (parseFloat(price) * parseFloat(quantity)).toFixed(2);
 		
 		amt = parseFloat(tax) + parseFloat(total);
-		$('#total_'+id[1]).val(amt);
+		$('#total_'+id[1]).val(amt.toFixed(2));
 	}
 	
 	
@@ -291,6 +291,6 @@ function frmvalidation()
 		alert(errorstr);
 	}
 	
-	return true;
+	return valid;
 	
 }

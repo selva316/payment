@@ -105,6 +105,7 @@
 										echo "<td>".$row['STATUS']."</td>";
 										echo "<td><a href=".site_url('admin/editquotation')."?qid=".$row['HASHQID'].">Edit</a>";
 										echo "<a style='margin-left:20px;' target='_blank' href=".site_url('admin/pdfquotation')."?qid=".$row['HASHQID'].">Pdf</a>";
+										echo "<a style='margin-left:20px;' target='_blank' href=".site_url('admin/onlinepayment')."?qid=".$row['HASHQID'].">Copy</a>";
 										//echo "<a style='margin-left:20px;' target='_blank' href=viewquotation.php?qid=".$row['HASHQID'].">View</a>";
 										echo "</td>";
 										echo "</tr>";

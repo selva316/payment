@@ -47,6 +47,11 @@
 			font-size:14px;
 			padding-left:40%;
 		}
+		
+		#rupeeinwords{
+			font-size:12px;
+			font-weight:bold;
+		}
 	</style>
 </head>
 
@@ -85,7 +90,7 @@
 				</div>
       			<div class="form-group">
 				<b><u>Quotation Details</u></b></br>	
-				<label>REF No: <input type="text" class="form-control" id="refnumber"name="refnumber" placeholder="REF Number"></label>
+				<!--<label>REF No: <input type="text" class="form-control" id="refnumber"name="refnumber" placeholder="REF Number"></label>-->
 				<label>Date : <input type="text" class="form-control" id="quotationdate" name="quotationdate" placeholder="Date"></label>
 				
 				</div>
@@ -101,6 +106,7 @@
 					<label>E-Mail: <input type="text" class="form-control" id="mailid" name="mailid" placeholder="Mail ID"> </label>
 					<label>TIN : <input type="text" class="form-control" id="tin" name="tin" placeholder="TIN"> </label>
 					<label>CST : <input type="text" class="form-control" id="cst" name="cst" placeholder="CST"></label>
+					<label>Sales Person : <input type="text" class="form-control" id="salesperson" name="salesperson" placeholder="Sales Person"></label>
 				</div>
 				
       		</div>
@@ -129,8 +135,8 @@
 							<td><input type="text" name="price[]" id="price_1" readonly class="form-control changesNo" autocomplete="off" ondrop="return false;" onpaste="return false;"></td>
 							
 							<td><input type="text" name="taxP[]" id="taxP_1" class="form-control changesNo autocomplete_txt" value="0" autocomplete="off"></td>
-							<td><input type="text" name="tax[]" readonly id="tax_1" class="form-control totaltaxprice autocomplete_txt" value="0" autocomplete="off"></td>
-							<td><input type="number" name="total[]" id="total_1" readonly class="form-control totalLinePrice" autocomplete="off" ondrop="return false;" onpaste="return false;"></td>
+							<td><input type="text" name="tax[]" readonly id="tax_1"  style="text-align:right;" class="form-control totaltaxprice autocomplete_txt" value="0" autocomplete="off"></td>
+							<td><input type="text" name="total[]" id="total_1"  style="text-align:right;" readonly class="form-control totalLinePrice" autocomplete="off" ondrop="return false;" onpaste="return false;"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -152,7 +158,7 @@
       		<div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>
 			
       			<div class="form-group">
-					<label>Sales Person : <input type="text" class="form-control" id="salesperson" name="salesperson" placeholder="Sales Person"></label>
+					
 					<div id="rupeeinwords"></div>
 				</div>
 				<div class="form-group">
@@ -166,14 +172,14 @@
 						<label>Subtotal: &nbsp;</label>
 						<div class="input-group">
 							<div class="input-group-addon">Rs.</div>
-							<input type="number" class="form-control" id="subTotal" readonly name="sub_total" placeholder="Subtotal" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;"  style="text-align:right;" value="0">
+							<input type="text" class="form-control" id="subTotal" readonly name="sub_total" placeholder="Subtotal" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;"  style="text-align:right;" value="0">
 						</div>
 					</div>
 					<div class="form-group">
 						<label>Tax Total: &nbsp;</label>
 						<div class="input-group">
 							<div class="input-group-addon">Rs.</div>
-							<input type="number" class="form-control" id="taxtotal" readonly  name="taxtotal" placeholder="Tax" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;"   style="text-align:right;" value="0">
+							<input type="text" class="form-control" id="taxtotal" readonly  name="taxtotal" placeholder="Tax" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;"   style="text-align:right;" value="0">
 						</div>
 					</div>
 					<div class="form-group">
@@ -181,14 +187,14 @@
 						
 						<div class="input-group">
 							<div class="input-group-addon">Rs.</div>
-							<input type="number" class="form-control" id="round_off" readonly  name="round_off" placeholder="Round Off" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;"  style="text-align:right;" value="0">
+							<input type="text" class="form-control" id="round_off" readonly  name="round_off" placeholder="Round Off" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;"  style="text-align:right;" value="0">
 						</div>
 					</div>
 					<div class="form-group">
 						<label>Net Amount: &nbsp;</label>
 						<div class="input-group">
 							<div class="input-group-addon">Rs.</div>
-							<input type="number" class="form-control" id="netamount" readonly name="netamount" placeholder="Net Amount" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;"  style="text-align:right;" value="0">
+							<input type="text" class="form-control" id="netamount" readonly name="netamount" placeholder="Net Amount" onkeypress="return IsNumeric(event);" ondrop="return false;" onpaste="return false;"  style="text-align:right;" value="0">
 						</div>
 					</div>
 					

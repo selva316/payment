@@ -8,10 +8,11 @@ var i=$('table tr').length;
 $(".addmore").on('click',function(){
 	html = '<tr>';
 	html += '<td><input class="case" type="checkbox"/></td>';
-	html += '<td><input type="text" data-type="itemcode" name="itemCode[]" id="itemCode_'+i+'" class="form-control autocomplete_txt" autocomplete="off"></td>';
+	html += '<td><input type="text" data-type="upc" name="itemCode[]" id="itemCode_'+i+'" class="form-control autocomplete_txt" autocomplete="off"></td>';
 	html += '<td><input type="text" data-type="description" name="itemName[]" id="itemName_'+i+'" class="form-control autocomplete_txt" autocomplete="off"></td>';
 	html += '<td><input type="text" name="quantity[]" id="quantity_'+i+'" class="form-control changesNo" autocomplete="off"  ondrop="return false;" onpaste="return false;"></td>';
 	html += '<td><input type="text" name="price[]" id="price_'+i+'" readonly class="form-control changesNo" autocomplete="off"  ondrop="return false;" onpaste="return false;"></td>';
+	html += '<td><input type="text" name="dis[]" id="dis_'+i+'" class="form-control changesNo autocomplete_txt" value="0" autocomplete="off"></td>';
 	html += '<td><input type="text" name="taxP[]" id="taxP_'+i+'" class="form-control changesNo autocomplete_txt" value="0" autocomplete="off"></td>';
 	html += '<td><input type="text" name="tax[]" id="tax_'+i+'" readonly class="form-control totaltaxprice changesNo autocomplete_txt" value="0" style="text-align:right;"  autocomplete="off"></td>';
 	html += '<td><input type="text" name="total[]" id="total_'+i+'" readonly class="form-control totalLinePrice"  style="text-align:right;" autocomplete="off" ondrop="return false;" onpaste="return false;"></td>';
@@ -35,8 +36,8 @@ $(".delete").on('click', function() {
 //autocomplete script
 $(document).on('focus','.autocomplete_txt',function(){
 	type = $(this).data('type');
-	
-	if(type =='itemcode' )autoTypeNo=0;
+
+	if(type =='upc' )autoTypeNo=0;
 	if(type =='description' )autoTypeNo=1; 	
 	
 	$(this).autocomplete({
@@ -72,6 +73,10 @@ $(document).on('focus','.autocomplete_txt',function(){
 			$('#quantity_'+id[1]).val(1);
 			$('#price_'+id[1]).val(names[2]);
 			
+			$('#dis_'+id[1]).val(0);
+			$('#taxP_'+id[1]).val(0);
+			$('#tax_'+id[1]).val(0.00);
+			
 			$('#total_'+id[1]).val( 1 * names[2] );
 			/*$('#taxP'+id[1]).val(names[2]);
 			$('#tax'+id[1]).val(names[3]);
@@ -91,6 +96,7 @@ $(document).on('change keyup blur','.changesNo',function(){
 	
 	taxpercent = $('#taxP_'+id[1]).val();
 	tax = $('#tax_'+id[1]).val();
+	dis = $('#dis_'+id[1]).val();
 	
 	if( quantity!='' && price !='' ) 
 	{
@@ -101,11 +107,26 @@ $(document).on('change keyup blur','.changesNo',function(){
 	
 	if(taxpercent!='' && quantity!='' && price !='')
 	{
-		tax = (((parseFloat(price)*parseFloat(quantity)).toFixed(2)) * taxpercent) / 100;
+		/*
+		$actualprice = ($row['price'] * $row['quantity']);
+		$disvalue = (($row['quantity'] * $row['price'] * $row['dis']) / 100);
+		
+		$taxvalue = ((($actualprice - $disvalue) * $row['taxpercent']) / 100);
+		$rowtotal = $actualprice - ($disvalue);
+		*/
+		actualprice = (parseFloat(price) * parseFloat(quantity));
+		
+		discount = (((parseFloat(price)*parseFloat(quantity)).toFixed(2)) * dis) / 100;
+		//$('#dis_'+id[1]).val(discount.toFixed(2));
+		
+		//tax = ((((parseFloat(price)*parseFloat(quantity)).toFixed(2)) - parseFloat(discount)) * taxpercent) / 100;
+		tax = ((actualprice - discount) * taxpercent) / 100;
+		
 		$('#tax_'+id[1]).val(tax.toFixed(2));
+		
 		total = (parseFloat(price) * parseFloat(quantity)).toFixed(2);
 		
-		amt = parseFloat(tax) + parseFloat(total);
+		amt = parseFloat(total) - parseFloat(discount);
 		$('#total_'+id[1]).val(amt.toFixed(2));
 	}
 	
@@ -131,27 +152,21 @@ function calculateTotal(){
 		if($(this).val() != '' )taxtotal += parseFloat( $(this).val() );
 	});
 	
-	roundoff = Math.ceil(subTotal.toFixed(2)) - subTotal.toFixed(2);
 	
+	$('#taxtotal').val(taxtotal.toFixed(2));
+	//var subval = subTotal.toFixed(2) - taxtotal.toFixed(2);
+	$('#subTotal').val(subTotal.toFixed(2));
+	
+	var subval = $('#subTotal').val();
+	var taxval = $('#taxtotal').val();
+	
+	//roundoff = Math.ceil(subTotal.toFixed(2)) - subTotal.toFixed(2);
+	roundoff = Math.ceil(parseFloat(subval) + parseFloat(taxval)) - (parseFloat(subval) + parseFloat(taxval));
 	$('#round_off').val( roundoff.toFixed(2) );
 	
-	$('#netamount').val( Math.ceil(subTotal.toFixed(2)) );
-	$('#taxtotal').val(taxtotal.toFixed(2));
-	
-	$('#subTotal').val(subTotal.toFixed(2) - taxtotal.toFixed(2))
-	
-	/*tax = $('#taxtotal').val();
-	if(tax != '' && typeof(tax) != "undefined" ){
-		taxAmount = subTotal * ( parseFloat(tax) /100 );
-		$('#taxAmount').val(taxAmount.toFixed(2));
-		total = subTotal + taxAmount;
-	}else{
-		$('#taxAmount').val(0);
-		total = subTotal;
-	}
-	$('#totalAftertax').val( total.toFixed(2) );
-	calculateAmountDue();
-	*/
+	var netAmt = parseFloat(subval) + parseFloat(taxval) + parseFloat(roundoff);
+	//alert(subTotal+" "+taxTotal+" "+roundoff);
+	$('#netamount').val( Math.ceil(netAmt.toFixed(2)) );
 	
 	//$(this).autocomplete({
 		$.ajax({

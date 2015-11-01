@@ -86,7 +86,8 @@
 					<br/>
 					<label>Address:</label>
 					<br/>
-					 <textarea  class="form-control" rows="3"  style="width:210px" id="address"name="address" placeholder="Address"></textarea>
+					 <!--<textarea  class="form-control" rows="3"  style="width:210px" id="address"name="address" placeholder="Address"></textarea>-->
+					 <?php echo $this->ckeditor->editor("address");?>
 				</div>
       			<div class="form-group">
 				<b><u>Quotation Details</u></b></br>	
@@ -117,11 +118,12 @@
 					<thead>
 						<tr>
 							<th width="2%"></th>
-							<th width="15%">Item Code</th>
+							<th width="15%">UPC Code</th>
 							<th width="25%">Description of Goods</th>
-							<th width="10%">QTY</th>
+							<th width="5%">QTY</th>
 							<th width="10%">Price</th>
-							<th width="10%">TAX%</th>
+							<th width="5%">DIS%</th>
+							<th width="8%">TAX%</th>
 							<th width="10%">TAX</th>
 							<th width="20%">TOTAL</th>
 						</tr>
@@ -129,11 +131,11 @@
 					<tbody>
 						<tr>
 							<td><input class="case" type="checkbox"/></td>
-							<td><input type="text" data-type="itemcode" name="itemCode[]" id="itemCode_1" class="form-control autocomplete_txt" autocomplete="off"></td>
+							<td><input type="text" data-type="upc" name="itemCode[]" id="itemCode_1" class="form-control autocomplete_txt" autocomplete="off"></td>
 							<td><input type="text" data-type="description" name="itemName[]" id="itemName_1" class="form-control autocomplete_txt" autocomplete="off"></td>
 							<td><input type="text" name="quantity[]" id="quantity_1" class="form-control changesNo" autocomplete="off" ondrop="return false;" onpaste="return false;"></td>
 							<td><input type="text" name="price[]" id="price_1" readonly class="form-control changesNo" autocomplete="off" ondrop="return false;" onpaste="return false;"></td>
-							
+							<td><input type="text" name="dis[]" id="dis_1" class="form-control changesNo autocomplete_txt" value="0" autocomplete="off"></td>
 							<td><input type="text" name="taxP[]" id="taxP_1" class="form-control changesNo autocomplete_txt" value="0" autocomplete="off"></td>
 							<td><input type="text" name="tax[]" readonly id="tax_1"  style="text-align:right;" class="form-control totaltaxprice autocomplete_txt" value="0" autocomplete="off"></td>
 							<td><input type="text" name="total[]" id="total_1"  style="text-align:right;" readonly class="form-control totalLinePrice" autocomplete="off" ondrop="return false;" onpaste="return false;"></td>
@@ -152,7 +154,7 @@
 		
 	
   </br><hr>
-  <B>Remarks:</B> </br></br>
+  <B></B> </br></br>
   <div class='row'>
    
       		<div class='col-xs-12 col-sm-4 col-md-4 col-lg-4'>
@@ -163,7 +165,8 @@
 				</div>
 				<div class="form-group">
 					<b>Term & Condition	</b></br>
-					<textarea class="form-control" rows='5' id="term" name="term" placeholder="Term & Condition"></textarea>				
+					<!--<textarea class="form-control" rows='5' id="term" name="term" placeholder="Term & Condition"></textarea>				-->
+					<?php echo $this->ckeditor->editor("term");?>
 				</div>
 				
       		</div>

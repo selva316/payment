@@ -7,11 +7,23 @@ class EditQuotation extends CI_Controller {
         parent::__construct();
 		$this->load->database();
 		$this->load->helper('url');
-		
+		$this->load->library('ckeditor');
+		$this->load->library('ckfinder');
 	}
 	
 	public function index()
 	{
+		$this->ckeditor->basePath = base_url().'assets/ckeditor/';
+		$this->ckeditor->config['toolbar'] = array(
+						array( 'Source', '-', 'Bold', 'Italic', 'Underline', '-','Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo','-','NumberedList','BulletedList' )
+															);
+		$this->ckeditor->config['language'] = 'it';
+		$this->ckeditor->config['width'] = '430px';
+		$this->ckeditor->config['height'] = '200px'; 
+				
+		//Add Ckfinder to Ckeditor
+		$this->ckfinder->SetupCKEditor($this->ckeditor,'../../assets/ckfinder/'); 
+		
 		$hashqid = $_GET['qid'];
 		
 		$this->load->model('quotationmodel');

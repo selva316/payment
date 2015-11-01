@@ -76,31 +76,35 @@
       			<table class="table table-bordered table-hover">
 					<thead>
 						<tr>
-							<th width="2%"></th>
-							<th width="25%">Description of Goods</th>
-							<th width="10%">Price</th>
-							<th width="10%">Discount%</th>
+							<th width="15%">UPC</th>
+							<th width="10%">MPN</th>
+							<th width="35%">Description</th>
+							<th width="10%">Category</th>
+							<th width="10%">Brand</th>
+							<th width="10%">MRP</th>
+									
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td><input class="case" type="checkbox"/>
+							<td><input type="text" data-type="upc" name="upc" id="upc" value="<?php echo $upc; ?>" class="form-control autocomplete_txt" autocomplete="off">
 								<input type="hidden" id="itemcode" name="itemcode" value="<?php echo $itemcode; ?>" />
 								<input type="hidden" id="hashitemcode" name="hashitemcode" value="<?php echo $hashitemcode; ?>" />
 							</td>
-								
+							<td><input type="text" data-type="mpn" name="mpn" id="mpn" value="<?php echo $mpn; ?>" class="form-control autocomplete_txt" autocomplete="off"></td>
 							<td><input type="text" data-type="description" name="description" id="description" value="<?php echo $description; ?>" class="form-control autocomplete_txt" autocomplete="off"></td>
-							<td><input type="text" name="price" id="price" class="form-control changesNo" value="<?php echo $price; ?>" autocomplete="off" ondrop="return false;" onpaste="return false;"></td>
-							<td><input type="text" name="discount" id="discount" class="form-control changesNo autocomplete_txt" value="<?php echo $discount; ?>" autocomplete="off"></td>
+							<td><input type="text" data-type="category" name="category" id="category" value="<?php echo $category; ?>" class="form-control autocomplete_txt" autocomplete="off"></td>
+							<td><input type="text" name="brand" id="brand" class="form-control changesNo" value="<?php echo $brand; ?>" autocomplete="off" ondrop="return false;" onpaste="return false;"></td>
+							<td><input type="text" name="mrp" id="mrp" class="form-control changesNo autocomplete_txt" value="<?php echo $mrp; ?>" autocomplete="off"></td>
 						</tr>
 					</tbody>
 				</table>
       		</div>
       	</div>
-		<div class='col-xs-12 col-sm-3 col-md-3 col-lg-3'>
+		<!--<div class='col-xs-12 col-sm-3 col-md-3 col-lg-3'>
       			<button class="btn btn-danger delete" type="button">- Delete</button>
       			<button class="btn btn-success addmore" type="button">+ Add More</button>
-      		</div>
+      		</div>-->
 			
 			     		
       	

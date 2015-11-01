@@ -89,7 +89,8 @@
 					<br/>
 					<label>Address:</label>
 					<br/>
-					 <textarea  class="form-control" rows="3"  style="width:210px" id="address"name="address" placeholder="Address"><?php echo trim($address);?></textarea>
+					 <!--<textarea  class="form-control" rows="3"  style="width:210px" id="address"name="address" placeholder="Address"><?php echo trim($address);?></textarea>-->
+					 <?php echo $this->ckeditor->editor("address",trim($address));?>
 				</div>
       			<div class="form-group">
 				<b><u>Quotation Details</u></b></br>	
@@ -120,13 +121,14 @@
 					<thead>
 						<tr>
 							<th width="2%"></th>
-							<th width="15%">Item Code</th>
-							<th width="25%">Description of Goods</th>
-							<th width="10%">QTY</th>
+							<th width="15%">UPC Code</th>
+							<th width="32%">Description of Goods</th>
+							<th width="5%">QTY</th>
 							<th width="10%">Price</th>
-							<th width="10%">TAX%</th>
+							<th width="8%">DIS%</th>
+							<th width="8%">TAX%</th>
 							<th width="10%">TAX</th>
-							<th width="20%">TOTAL</th>
+							<th width="10%">TOTAL</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -136,14 +138,24 @@
 						?>
 						<tr>
 							<td><input class="case" type="checkbox"/></td>
-							<td><input type="text" data-type="itemcode" name="itemCode[]" id="itemCode_<?php echo $i ?>" value="<?php echo $row['itemcode'];?>" class="form-control autocomplete_txt" autocomplete="off"></td>
+							<td><input type="text" data-type="upc" name="itemCode[]" id="itemCode_<?php echo $i ?>" value="<?php echo $row['itemcode'];?>" class="form-control autocomplete_txt" autocomplete="off"></td>
 							<td><input type="text" data-type="description" name="itemName[]" id="itemName_<?php echo $i ?>" value="<?php echo $row['description'];?>" class="form-control autocomplete_txt" autocomplete="off"></td>
 							<td><input type="text" name="quantity[]" id="quantity_<?php echo $i ?>" value="<?php echo $row['quantity'];?>" class="form-control changesNo" autocomplete="off" ondrop="return false;" onpaste="return false;"></td>
 							<td><input type="text" name="price[]" id="price_<?php echo $i ?>" value="<?php echo $row['price'];?>" readonly class="form-control changesNo" autocomplete="off" ondrop="return false;" onpaste="return false;"></td>
-							
+							<td><input type="text" name="dis[]" id="dis_<?php echo $i ?>" value="<?php echo $row['dis'];?>"  class="form-control changesNo autocomplete_txt" value="0" autocomplete="off"></td>
 							<td><input type="text" name="taxP[]" id="taxP_<?php echo $i ?>" value="<?php echo $row['taxpercent'];?>" class="form-control changesNo autocomplete_txt" value="0" autocomplete="off"></td>
-							<td><input type="text" name="tax[]" readonly id="tax_<?php echo $i ?>"  style="text-align:right;" value="<?php echo number_format((($row['quantity'] * $row['price'] * $row['taxpercent']) / 100), 2, '.', ','); ?>" class="form-control totaltaxprice autocomplete_txt" value="0" autocomplete="off"></td>
-							<td><input type="text" name="total[]" id="total_<?php echo $i ?>" value="<?php echo number_format(((($row['quantity'] * $row['price'] * $row['taxpercent']) / 100) + ($row['quantity']*$row['price'])), 2, '.', ',') ?>"  style="text-align:right;" readonly class="form-control totalLinePrice" autocomplete="off" ondrop="return false;" onpaste="return false;"></td>
+							<td>
+							<?php
+								$actualprice = ($row['price'] * $row['quantity']);
+								$disvalue = (($row['quantity'] * $row['price'] * $row['dis']) / 100);
+								
+								$taxvalue = ((($actualprice - $disvalue) * $row['taxpercent']) / 100);
+								$rowtotal = $actualprice - ($disvalue);
+							?>
+							<input type="text" name="tax[]" readonly id="tax_<?php echo $i ?>"  style="text-align:right;" value="<?php echo number_format(($taxvalue), 2, '.', ','); ?>" class="form-control totaltaxprice autocomplete_txt" value="0" autocomplete="off"></td>
+							<td>
+							<input type="text" name="total[]" id="total_<?php echo $i ?>" value="<?php echo number_format(($rowtotal), 2, '.', ',') ?>"  style="text-align:right;" readonly class="form-control totalLinePrice" autocomplete="off" ondrop="return false;" onpaste="return false;">
+							</td>
 						</tr>
 						<?php
 							$i++;
@@ -170,11 +182,12 @@
 			
       			<div class="form-group">
 					
-					<div id="rupeeinwords"><?php echo ucfirst($amtinwords).' Only';?></div>
+					<div id="rupeeinwords"><?php echo 'Rupees '.ucfirst($amtinwords).' only /-';?></div>
 				</div>
 				<div class="form-group">
 					<b>Term & Condition	</b></br>
-					<textarea class="form-control" rows='5' id="term" name="term" placeholder="Term & Condition"> <?php echo trim($term);?></textarea>				
+					<!--<textarea class="form-control" rows='5' id="term" name="term" placeholder="Term & Condition"> <?php echo trim($term);?></textarea>-->		
+					<?php echo $this->ckeditor->editor("term",trim($term));?>
 				</div>
 				
       		</div>

@@ -59,70 +59,41 @@
 			<div class="span2">
 			</div>
 			<div class="span4">
-				<div class="panel panel-success">
+				<div class="panel panel-warning">
 					<div class="panel-heading">
 						<label>
-						Order Summary
+						Customer Details
 						</label>
 					</div>
 					<div class="panel-body">
 						<table class="table table-hover">
-							<thead>
-								<tr>
-									<th width="800px">Description</th>
-									<th>Amount</th>
-								</tr>
-							</thead>
 							<tbody>
-							<?php
-							$tot = 0;
-							foreach($data['itemdetails'] as $k=>$v)
-							{
-								$tot = $tot + ($v['price'] * $v['quantity']) + (($v['quantity'] * $v['price'] * $v['taxpercent']) / 100) ;
-								echo '<tr>';
-									echo '<td style="border-top: #fff;">';
-										echo $v['description'];
-									echo '</td style="border-top: #fff;">';
-									echo '<td style="text-align:right;">';
-										echo ($v['price'] * $v['quantity'] + (($v['quantity'] * $v['price'] * $v['taxpercent']) / 100));
-									echo '</td>';
-								echo '</tr>';
-								echo '<tr>';
-									echo '<td style="border-top: #fff;">Item Code: '.$v['itemcode'].'</td>';
-									echo '<td style="border-top: #fff;"></td>';
-								echo '</tr>';
-								echo '<tr>';
-									echo '<td style="border-top: #fff;">Item price: '.$v['price'].'</td>';
-									echo '<td style="border-top: #fff;"></td>';
-								echo '</tr>';
-								echo '<tr>';
-									echo '<td style="border-top: #fff;">Quantity: '.$v['quantity'].'</td>';
-									echo '<td style="border-top: #fff;"></td>';
-								echo '</tr>';
-								echo '<tr>';
-									echo '<td style="border-top: #fff;"></td>';
-									echo '<td style="border-top: #fff;"></td>';
-								echo '</tr>';
-								echo '<tr>';
-									echo '<td style="border-top: #fff;"></td>';
-									echo '<td style="border-top: #fff;"></td>';
-								echo '</tr>';
+								<tr>
+									<td>Quotation ID:</td>
+									<td><?php echo $data['qid']; ?></td>
+								</tr>
+								<tr>
+									<td>Quotation Date:</td>
+									<td><?php echo date("d M Y",$data['quotationdate']); ?></td>
+								</tr>
+								<tr>
+									<td>Name:</td>
+									<td><?php echo ucfirst($data['name']); ?></td>
+								</tr>
+								<tr>
+									<td>Contact:</td>
+									<td><?php echo $data['contact']; ?></td>
+								</tr>
+								<tr>
+									<td>Address:</td>
+									<td><?php echo $data['address']; ?></td>
+								</tr>
 								
-							}
-							echo '<tr>';
-								echo '<td style="font-weight:bold;">Round Off</td>';
-								echo '<td style="font-weight:bold; text-align:right">'.($data['roundoff']).'</td>';
-							echo '</tr>';
-							echo '<tr>';
-								echo '<td style="font-weight:bold;">Net Total</td>';
-								echo '<td style="font-weight:bold; text-align:right">'.($tot + $data['roundoff']).'</td>';
-							echo '</tr>';
-							
-							?>
 							</tbody>
 						</table>
 					</div>
 				</div>
+				
 			</div>
 			<div class="span4"   style="margin-top:125px;">
 				<legend>Payment Way</legend>
@@ -150,12 +121,23 @@
 							$amount = "amount_".$i;
 							$quantity = "quantity_".$i;
 							$itemnumber = "item_number_".$i;
-
+							$tax = "tax_".$i;
+														
+							$actualprice = ($v['price'] * 1);
+							$disvalue = ((1 * $v['price'] * $v['dis']) / 100);
+							$taxvalue = ((($actualprice - $disvalue) * $v['taxpercent']) / 100);
+							//$rowtotal = $actualprice - ($disvalue + $taxvalue);
+							$rowtotal = $actualprice - ($disvalue);
+							
+							//$actualtotal = ($actualprice + $taxvalue)- $disvalue;
+							$actualtotal = $actualprice - $disvalue;
+							
 							echo '<input type="hidden" name="'.$itemname.'" value="'.$v['description'].'">';
-							echo '<input type="hidden" name="'.$amount.'" value="'.$v['price'].'">';
-							echo '<input type="hidden" name="'.intval($quantity).'" value="'.intval($v['quantity']).'">';
-							echo '<input type="hidden" name="'.$itemnumber.'" value="'.intval($v['itemcode']).'">';
-
+							echo '<input type="hidden" name="'.$amount.'" value="'.$actualtotal.'">';
+							echo '<input type="hidden" name="'.$quantity.'" value="'.intval($v['quantity']).'">';
+							echo '<input type="hidden" name="'.$itemnumber.'" value="'.$v['itemcode'].'">';
+							echo '<input type="hidden" name="'.$tax.'" value="'.$taxvalue.'">';
+							
 						}
 					?>
 					
@@ -163,8 +145,8 @@
 					<!-- Prompt buyers to enter their desired quantities. -->
 					<input type="hidden" name="undefined_quantity" value="<?php echo $i; ?>">
 		
-					<input type="hidden" name="return" value="http://52.74.245.165/gateway/paypal_success.php" />
-					<input type="hidden" name="cancel_return" value="http://52.74.245.165/gateway/paypal_cancel.php" />
+					<input type="hidden" name="return" value="http://52.74.245.165/payment/onlinepayment/success" />
+					<input type="hidden" name="cancel_return" value="http://52.74.245.165/payment/onlinepayment/cancel" />
 								
 					<!-- Display the payment button. -->
 					<input width="200"  height="50" type="image" name="submit" border="0"
@@ -174,6 +156,138 @@
 					src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" >
 
 				</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="span2">
+			</div>
+			<div class="span10">
+				<div class="panel panel-success">
+					<div class="panel-heading">
+						<label>
+						Order Summary
+						</label>
+					</div>
+					<div class="panel-body">
+						<table class="table table-hover">
+							<thead>
+								
+								<tr>
+									<th width="15%">Item Code</th>
+									<th width="35%">Description of Goods</th>
+									<th width="5%">QTY</th>
+									<th width="10%">Price</th>
+									<th width="5%">DIS%</th>
+									<th width="8%">TAX%</th>
+									<th width="10%">TAX</th>
+									<th width="10%">TOTAL</th>
+								</tr>
+							</thead>
+							<tbody>
+							<?php
+							$nettoal = 0;
+							$subtoal = 0;
+							$taxtotal = 0;
+							foreach($data['itemdetails'] as $k=>$v)
+							{
+								//$tot = $tot + ($v['price'] * $v['quantity']) + (($v['quantity'] * $v['price'] * $v['taxpercent']) / 100) ;
+							
+								$actualprice = ($v['price'] * $v['quantity']);
+								$disvalue = (($v['quantity'] * $v['price'] * $v['dis']) / 100);
+								$taxvalue = ((($actualprice - $disvalue) * $v['taxpercent']) / 100);
+								//$rowtotal = $actualprice - ($disvalue + $taxvalue);
+								$rowtotal = $actualprice - ($disvalue);
+								
+								$actualtotal = ($actualprice + $taxvalue)- $disvalue;
+								
+								$taxtotal = $taxtotal +  $taxvalue;
+								$subtoal = $subtoal + $rowtotal;
+								$nettoal = $nettoal + $actualtotal;
+								echo '<tr>';
+									echo '<td>'.$v['itemcode'].'</td>';
+									
+									echo '<td>'.$v['description'].'</td>';
+									echo '<td>'.$v['quantity'].'</td>';
+									echo '<td>'.$v['price'].'</td>';
+									echo '<td>'.$v['dis'].'</td>';
+									echo '<td>'.number_format(($v['taxpercent']), 2, '.', ',').'</td>';
+									echo '<td>';
+									echo number_format(($taxvalue), 2, '.', ',');
+									echo '</td>';
+									echo '<td style="text-align:right;">';
+										echo number_format(($rowtotal), 2, '.', ',');
+										//echo ($v['price'] * $v['quantity'] + (($v['quantity'] * $v['price'] * $v['taxpercent']) / 100));
+									echo '</td>';
+								echo '</tr>';
+								/*echo '<tr>';
+									echo '<td style="border-top: #fff;">Item Code: '.$v['itemcode'].'</td>';
+									echo '<td style="border-top: #fff;"></td>';
+								echo '</tr>';
+								echo '<tr>';
+									echo '<td style="border-top: #fff;">Item price: '.$v['price'].'</td>';
+									echo '<td style="border-top: #fff;"></td>';
+								echo '</tr>';
+								echo '<tr>';
+									echo '<td style="border-top: #fff;">Quantity: '.$v['quantity'].'</td>';
+									echo '<td style="border-top: #fff;"></td>';
+								echo '</tr>';
+								echo '<tr>';
+									echo '<td style="border-top: #fff;"></td>';
+									echo '<td style="border-top: #fff;"></td>';
+								echo '</tr>';
+								echo '<tr>';
+									echo '<td style="border-top: #fff;"></td>';
+									echo '<td style="border-top: #fff;"></td>';
+								echo '</tr>';*/
+								
+							}
+							echo '<tr>';
+									echo '<td style="border-top: #fff;"></td>';
+									echo '<td style="border-top: #fff;"></td>';
+									echo '<td style="border-top: #fff;"></td>';
+									echo '<td style="border-top: #fff;"></td>';
+									echo '<td style="border-top: #fff;"></td>';
+									echo '<td style="border-top: #fff;"></td>';
+									echo '<td style="font-weight:bold;">Sub Total</td>';
+									echo '<td style="font-weight:bold; text-align:right">'.number_format(($subtoal), 2, '.', ',').'</td>';
+							echo '</tr>';
+							echo '<tr>';
+									echo '<td style="border-top: #fff;"></td>';
+									echo '<td style="border-top: #fff;"></td>';
+									echo '<td style="border-top: #fff;"></td>';
+									echo '<td style="border-top: #fff;"></td>';
+									echo '<td style="border-top: #fff;"></td>';
+									echo '<td style="border-top: #fff;"></td>';
+									echo '<td style="font-weight:bold;">Tax Total</td>';
+									echo '<td style="font-weight:bold; text-align:right">'.number_format(($taxtotal), 2, '.', ',').'</td>';
+							echo '</tr>';
+							echo '<tr>';
+									echo '<td style="border-top: #fff;"></td>';
+									echo '<td style="border-top: #fff;"></td>';
+									echo '<td style="border-top: #fff;"></td>';
+									echo '<td style="border-top: #fff;"></td>';
+									echo '<td style="border-top: #fff;"></td>';
+									echo '<td style="border-top: #fff;"></td>';
+									echo '<td style="font-weight:bold;">Round Off</td>';
+									echo '<td style="font-weight:bold; text-align:right">'.number_format(($data['roundoff']), 2, '.', ',').'</td>';
+							echo '</tr>';
+							echo '<tr>';
+								echo '<td style="border-top: #fff;"></td>';
+								echo '<td style="border-top: #fff;"></td>';
+								echo '<td style="border-top: #fff;"></td>';
+								echo '<td style="border-top: #fff;"></td>';
+								echo '<td style="border-top: #fff;"></td>';
+								echo '<td style="border-top: #fff;"></td>';
+								echo '<td style="font-weight:bold;">Net Amount</td>';
+								echo '<td style="font-weight:bold; text-align:right">'.number_format(($data['netamount']), 2, '.', ',').'</td>';
+							echo '</tr>';
+							
+							?>
+							</tbody>
+						</table>
+						<legend><?php echo "Rupees " .ucfirst($data['amtinwords'])." only /-"; ?></legend>
+					</div>
+				</div>
 			</div>
 		</div>
     </div> <!-- /container -->

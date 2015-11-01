@@ -18,7 +18,7 @@ class Quotationmodel extends CI_Model {
 	function fetchAllProduct()
 	{
 		$this->db->select('*');
-		$this->db->from('py_product_details');
+		$this->db->from('py_master_product');
 		
 		$itemdata = array();
 		$itemquery = $this->db->get();
@@ -34,15 +34,15 @@ class Quotationmodel extends CI_Model {
 		
 		$type = $this->input->post('type');
 		$name = $this->input->post('name_startsWith');
-			
-		$query = $this->db->query("select ITEMCODE,DESCRIPTION,PRICE from py_product_details where (UPPER($type) LIKE '".strtoupper($name)."%')");
+		
+		$query = $this->db->query("select UPC,DESCRIPTION,MRP from py_master_product where (UPPER($type) LIKE '".strtoupper($name)."%')");
 		$data = array();
 		if ($query->num_rows() > 0)
 		{
 			$result = $query->result_array();
 			foreach($result as $row)
 			{
-				$name = $row['ITEMCODE'].'|'.$row['DESCRIPTION'].'|'.$row['PRICE'];//i am not want item code i,eeeeeeeeeeee
+				$name = $row['UPC'].'|'.$row['DESCRIPTION'].'|'.$row['MRP'];//i am not want item code i,eeeeeeeeeeee
 				array_push($data, $name);
 			}
 		}
@@ -74,6 +74,7 @@ class Quotationmodel extends CI_Model {
 				$description = $this->input->post('itemName');
 				$quantity = $this->input->post('quantity');
 				$price = $this->input->post('price');
+				$dis = $this->input->post('dis');
 				$tax_percent = $this->input->post('taxP');
 				$tax = $this->input->post('tax');
 			
@@ -85,6 +86,7 @@ class Quotationmodel extends CI_Model {
 				$itemlist['DESCRIPTION'] = $description[$i];
 				$itemlist['QUANTITY'] = $quantity[$i];
 				$itemlist['PRICE'] = $price[$i];
+				$itemlist['DIS'] = $dis[$i];
 				$itemlist['taxpercent'] = $tax_percent[$i];
 				$itemlist['qid'] = $qid;
 				
@@ -143,6 +145,7 @@ class Quotationmodel extends CI_Model {
 						$itemdata[$i]['description'] = $itemrow['DESCRIPTION'];
 						$itemdata[$i]['quantity'] = $itemrow['QUANTITY'];
 						$itemdata[$i]['price'] = $itemrow['PRICE'];
+						$itemdata[$i]['dis'] = $itemrow['DIS'];
 						$itemdata[$i]['disable'] = $itemrow['DISABLE'];
 						$itemdata[$i]['taxpercent'] = $itemrow['taxpercent'];
 
@@ -182,6 +185,7 @@ class Quotationmodel extends CI_Model {
 				$itemdata['description'] = $itemrow['DESCRIPTION'];
 				$itemdata['quantity'] = $itemrow['QUANTITY'];
 				$itemdata['price'] = $itemrow['PRICE'];
+				$itemdata['dis'] = $itemrow['DIS'];
 				$itemdata['disable'] = $itemrow['DISABLE'];
 				$itemdata['taxpercent'] = $itemrow['taxpercent'];
 				$itemdata['qid'] = $itemrow['qid'];
@@ -205,6 +209,7 @@ class Quotationmodel extends CI_Model {
 				$description = $this->input->post('itemName');
 				$quantity = $this->input->post('quantity');
 				$price = $this->input->post('price');
+				$dis = $this->input->post('dis');
 				$tax_percent = $this->input->post('taxP');
 				$tax = $this->input->post('tax');
 			
@@ -216,6 +221,7 @@ class Quotationmodel extends CI_Model {
 				$itemlist['DESCRIPTION'] = $description[$i];
 				$itemlist['QUANTITY'] = $quantity[$i];
 				$itemlist['PRICE'] = $price[$i];
+				$itemlist['DIS'] = $dis[$i];
 				$itemlist['taxpercent'] = $tax_percent[$i];
 				$itemlist['qid'] = $qid;
 				
@@ -223,6 +229,80 @@ class Quotationmodel extends CI_Model {
 			}
 		}
 		redirect('admin/homepage');
+	}
+	
+	function upload_product()
+	{
+		print_r($_FILES);
+		$chkfilename = $_FILES['upload']['name'];
+		if($chkfilename != "")
+		{
+			if($_FILES['upload']['error'] != 0)
+				continue;
+			else
+			{
+				
+				$filename = basename($_FILES['upload']['name']);
+				
+				$ext = substr($filename, strrpos($filename, '.') + 1);
+				if ((preg_match("/csv/i",$ext))  && ($_FILES['upload']["size"] < 500000)) 
+				{
+					$fileName = $_FILES['upload']['name'];
+					$tmpName  = $_FILES['upload']['tmp_name'];
+					$fileSize = $_FILES['upload']['size'];
+					$fileType = $_FILES['upload']['type'];
+					$name = explode('.',$fileName);
+					
+					if (($handle = fopen($tmpName, "r")) !== FALSE) {
+						fgetcsv($handle);   
+						while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
+							$productdata = array();
+							$num = count($data);
+							for ($c=0; $c < $num; $c++) {
+							  $col[$c] = $data[$c];
+							}
+
+							$productdata['UPC'] = $col[0];
+							$productdata['MPN'] = $col[1];
+							$productdata['DESCRIPTION'] = $col[2];
+							$productdata['CATEGORY'] = $col[3];
+							$productdata['BRAND'] = $col[4];
+							$productdata['MRP'] = $col[5];
+							
+							$upc = $col[0];
+							$this->db->select('*');
+							$this->db->from('py_master_product');
+							$this->db->where('upc', $upc);
+							$itemquery = $this->db->get();
+							
+							if($itemquery->num_rows() == 0)
+							{
+								$this->db->insert('py_master_product', $productdata); 
+								$autoid = $this->db->insert_id();
+			
+								$this->db->where('id', $autoid);
+								$itemid = 'IT'.$autoid;
+								$hashitemid = md5($itemid);
+								$this->db->set('ITEMCODE', $itemid);
+								$this->db->set('HASHITEMCODE', $hashitemid);
+								$this->db->update('py_master_product');
+							}
+							else
+							{
+								$this->db->where('upc', $upc);
+								$this->db->update('py_master_product',$productdata);
+							}
+								// SQL Query to insert data into DataBase
+							//$query = "INSERT INTO csvtbl(ID,name,city) VALUES('".$col1."','".$col2."','".$col3."')";
+							//$s     = mysql_query($query, $connect );
+						}
+						fclose($handle);
+					}
+					
+				}
+			}
+		}
+		redirect('admin/product');
 	}
 	
 	function add_product()
@@ -267,7 +347,7 @@ class Quotationmodel extends CI_Model {
 	
 	public function fetchProductDetails($hashitemcode)
 	{
-		$query = $this->db->query("select * from py_product_details where hashitemcode = '".$hashitemcode."'");
+		$query = $this->db->query("select * from py_master_product where hashitemcode = '".$hashitemcode."'");
 		
 		if($query->num_rows() > 0)
 		{
@@ -277,9 +357,12 @@ class Quotationmodel extends CI_Model {
 			{
 				$data['itemcode'] = $row['ITEMCODE'];
 				$data['hashitemcode'] = $row['HASHITEMCODE'];
+				$data['upc'] = $row['UPC'];
+				$data['mpn'] = $row['MPN'];
 				$data['description'] = $row['DESCRIPTION'];
-				$data['price'] = $row['PRICE'];
-				$data['discount'] = $row['DISCOUNT'];
+				$data['category'] = $row['CATEGORY'];
+				$data['brand'] = $row['BRAND'];
+				$data['mrp'] = $row['MRP'];
 			
 			}
 			return $data;
@@ -289,13 +372,16 @@ class Quotationmodel extends CI_Model {
 	function edit_product($data)
 	{
 		$data = array();
+		$data['upc'] = $this->input->post('upc');
+		$data['mpn'] = $this->input->post('mpn');
 		$data['description'] = $this->input->post('description');
-		$data['price'] = $this->input->post('price');
-		$data['discount'] = $this->input->post('discount');
+		$data['category'] = $this->input->post('category');
+		$data['brand'] = $this->input->post('brand');
+		$data['mrp'] = $this->input->post('mrp');
 		$hashitemcode = $this->input->post('hashitemcode');
 		$this->db->where('hashitemcode', $hashitemcode);
 		
-		$this->db->update('py_product_details', $data);
+		$this->db->update('py_master_product', $data);
 		
 		redirect('admin/product');
 	}

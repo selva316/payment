@@ -33,7 +33,7 @@ class Homepage extends CI_Controller {
 	public function ajax()
 	{
 		$type = $this->input->post('type');
-		if($type =="description" || $type =="itemcode")
+		if($type =="description" || $type =="upc")
 		{
 			$this->load->model('quotationmodel');
 			$data = $this->quotationmodel->ajaxcall();
@@ -44,7 +44,7 @@ class Homepage extends CI_Controller {
 	public function word()
 	{
 		$amt =$this->input->post('amount');
-		echo ucfirst($this->no_to_words($amt).' Only');
+		echo "Rupees ".ucfirst($this->no_to_words($amt).' only /-');
 	}
 	
 	public function no_to_words($no)

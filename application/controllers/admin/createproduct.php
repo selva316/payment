@@ -25,6 +25,16 @@ class CreateProduct extends CI_Controller {
 		}
 	}
 	
+	public function dataupload()
+	{
+		if(isset($_POST))
+		{
+			$this->load->model('quotationmodel');
+			$id = $this->quotationmodel->upload_product();
+			
+		}
+	}
+	
 	public function dataedit()
 	{
 		if(isset($_POST))

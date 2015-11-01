@@ -70,7 +70,7 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<div style="margin-left:30px;margin-bottom:10px;">
-							<a href="<?php echo site_url('admin/createproduct');?>" class="btn btn-large btn-success">Add Product</a>
+							<a href="<?php echo site_url('admin/importcsv');?>" class="btn btn-large btn-success">Add Product</a>
 						</div>
 					</div>
 					<!-- /.col-lg-12 -->
@@ -83,10 +83,12 @@
 							<thead>
 								<tr>
 									
-									<th>Item Code</th>
+									<th>UPC</th>
+									<th>MPN</th>
 									<th>Description</th>
-									<th>Price</th>
-									<th>Discount</th>
+									<th>Category</th>
+									<th>Brand</th>
+									<th>MRP</th>
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -99,10 +101,12 @@
 										//$lq = $dbh->query("select * from py_items where qid='".$row['QID']."'");
 										//$lq->fetchColumn(); 
 										echo "<tr>";
-										echo "<td>".$row['ITEMCODE']."</td>";
+										echo "<td>".$row['UPC']."</td>";
+										echo "<td>".$row['MPN']."</td>";
 										echo "<td>".ucfirst($row['DESCRIPTION'])."</td>";
-										echo "<td>".number_format(($row['PRICE']), 2, '.', ',')."</td>";
-										echo "<td>".$row['DISCOUNT']."</td>";
+										echo "<td>".$row['CATEGORY']."</td>";
+										echo "<td>".$row['BRAND']."</td>";
+										echo "<td>".number_format(($row['MRP']), 2, '.', ',')."</td>";
 										echo "<td><a href=".site_url('admin/editproduct')."?itemcode=".$row['HASHITEMCODE'].">Edit</a>";
 										//echo "<a style='margin-left:20px;' target='_blank' href=viewquotation.php?qid=".$row['HASHQID'].">View</a>";
 										echo "</td>";
@@ -154,6 +158,14 @@
 			}, {
 				targets: [ 3 ],
 				orderData: [ 3, 0 ]
+			},
+			{
+				targets: [ 4 ],
+				orderData: [ 4, 0 ]
+			},
+			{
+				targets: [ 5 ],
+				orderData: [ 5, 0 ]
 			}]
 		});
 	});

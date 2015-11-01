@@ -28,6 +28,11 @@ class Onlinepayment extends CI_Controller {
 		$this->load->view('admin/onlinepayment',$data);
 	}
 	
+	public function success()
+	{
+		print "success";
+	}
+	
 }
 
 /* End of file homepage.php */

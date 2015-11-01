@@ -104,7 +104,9 @@ class PdfQuotation extends CI_Controller {
 		$pdf->Cell(25, 5, $data['contact'], 0, 1, 'L', 0, '', 0);
 		
 		$pdf->SetXY(30, 45);
-		$pdf->Cell(25, 5, $data['address'], 0, 1, 'L', 0, '', 0);
+		//$pdf->Cell(25, 5, $data['address'], 0, 1, 'L', 0, '', 0);
+		$pdf->Cell(25, 5,'', 0, 1, 'L', 0, '', 0);
+		$pdf->writeHTMLCell($w=80, $h=0, $x=15, $y='',$data['address'], $border=0, $ln=1, $fill=0, $reseth=true, $align='', $autopadding=true);
 		//$pdf->SetXY(40, 50);
 			
 			
@@ -146,16 +148,23 @@ class PdfQuotation extends CI_Controller {
 		$invoicedetails .= '<tr><td  width="25%">Quotation Date:</td><td>'. date("m/d/y",$data['quotationdate']).'</td></tr>';
 		
 		
-		$pdf->Ln(15);
+		$pdf->Ln(20);
 		$pdf->writeHTMLCell($w=0, $h=0, $x=15, $y='',$invoicedetails, $border=0, $ln=1, $fill=0, $reseth=true, $align='', $autopadding=true);
 			
-		$pdf->Line(15, 95, 195, 95, $style4);
-		$pdf->Line(15, 105, 195, 105, $style4);
+		$pdf->Line(15, 100, 195, 100, $style4);
+		$pdf->Line(15, 110, 195, 110, $style4);
 		$pos = 105;
 		$pdf->SetFont('helvetica', '', 10);
-		$itemdetails='<table  cellpadding="5" cellspacing="10" ><thead><tr style="font-weight:bold;"><th width="15%" style="text-align:center;">Item Code</th><th width="27%" style="text-align:center;">Description of Goods</th><th width="7%">QTY</th><th width="13%" style="text-align:center;">Price</th><th width="9%"  style="text-align:center;">TAX%</th><th width="15%"  style="text-align:center;">TAX</th><th width="14%" style="text-align:center;">Net</th></tr></thead><tbody>';
+		$itemdetails='<table  cellpadding="5" cellspacing="10"><thead><tr style="font-weight:bold;"><th width="15%" style="text-align:center;">Item Code</th><th width="27%" style="text-align:center;">Description of Goods</th><th width="7%">QTY</th><th width="13%" style="text-align:center;">Price</th><th width="9%"  style="text-align:center;">TAX%</th><th width="15%"  style="text-align:center;">DIS%</th><th width="14%" style="text-align:center;">Net</th></tr></thead><tbody>';
 		foreach($data['itemdetails'] as $row){ 
-			$itemdetails .= '<tr><td width="15%">'.$row['itemcode'].'</td><td  width="27%">'.$row['description'] .'</td><td width="7%">'.$row['quantity'] .'</td><td width="13%"  style="text-align:right;">'.$row['price'] .'</td><td width="9%" style="text-align:right;">'.$row['taxpercent'] .'</td><td  width="15%" style="text-align:right;">'.($row['quantity'] * $row['price'] * $row['taxpercent']) / 100 .'</td><td width="14%" style="text-align:right;">'.number_format(($row['quantity']*$row['price']), 2, '.', ',') .'</td></tr>';
+			
+			$actualprice = ($row['price'] * $row['quantity']);
+			$disvalue = (($row['quantity'] * $row['price'] * $row['dis']) / 100);
+			
+			$taxvalue = ((($actualprice - $disvalue) * $row['taxpercent']) / 100);
+			$rowtotal = $actualprice - ($disvalue);
+								
+			$itemdetails .= '<tr><td width="15%">'.$row['itemcode'].'</td><td  width="27%">'.$row['description'] .'</td><td width="7%">'.$row['quantity'] .'</td><td width="13%"  style="text-align:right;">'.number_format(($row['price']), 2, '.', ',') .'</td><td width="9%" style="text-align:right;">'.number_format(($row['taxpercent']), 2, '.', ',') .'</td><td  width="15%" style="text-align:right;">'.number_format(($row['dis']), 2, '.', ',') .'</td><td width="14%" style="text-align:right;">'.number_format(($rowtotal), 2, '.', ',') .'</td></tr>';
 			$pos = $pos + 10;
 		}
 		$itemdetails .= '</tbody></table>';
@@ -171,22 +180,28 @@ class PdfQuotation extends CI_Controller {
 		$subdetails .= '<tr><td  width="50%" style="font-weight:bold;">Net Amount:</td><td style="text-align:right;">'.number_format(($data['netamount']), 2, '.', ',').'</td></tr>';
 		$subdetails .= '</tbody></table>';
 		//$pdf->Ln(5);
-		$pdf->SetXY(140, $pos+10);
+		$pdf->SetXY(140, $pos);
 		$pdf->writeHTMLCell($w=52, $h=0, $x=125, $y='',$subdetails, $border=0, $ln=1, $fill=0, $reseth=true, $align='right', $autopadding=true);
 		
 		$remarksdetails = '<table><thead><tr><th  style="font-weight:bold;" width="50%"></th><th></th></tr></thead><tbody>';
 		$remarksdetails .= '<tr><td  width="50%"></td><td  style="text-align:right;"></td></tr>';
 		$remarksdetails .= '<tr><td  width="50%"></td><td  style="text-align:right;"></td></tr>';
-		$remarksdetails .= '<tr><td  width="95%">'.ucfirst($this->no_to_words($data['netamount']).' Only').'</td><td   width="5%"></td></tr>';
+		$remarksdetails .= '<tr><td  width="95%">Rupees '.ucfirst($this->no_to_words($data['netamount']).' only /-').'</td><td   width="5%"></td></tr>';
 		$remarksdetails .= '<tr><td  width="50%"></td><td  style="text-align:right;"></td></tr>';
 		$remarksdetails .= '<tr><td  width="50%" style="font-weight:bold;">Term&Condition</td><td style="text-align:right;"></td></tr>';
 		$remarksdetails .= '<tr><td  width="90%" style="text-align:Justify;">'.$data['term'].'</td><td width="10%"></td></tr>';
+		$remarksdetails .= '<tr><td  width="50%"></td><td></td></tr>';
+		$remarksdetails .= '<tr><th  style="font-weight:bold;text-align:right;" width="95%">For CONSOLIDATED PREMIUM RETAILERS</th></tr>';
+		$remarksdetails .= '<tr><td  width="50%"></td><td></td></tr>';
+		$remarksdetails .= '<tr><td  width="50%"></td><td></td></tr>';
+		$remarksdetails .= '<tr><td  width="50%"></td><td></td></tr>';
+		$remarksdetails .= '<tr><td  style="text-align:right; width:80%;">Authorised Signatory</td><td></td></tr>';
 		$remarksdetails .= '</tbody></table>';
 		
-		$pdf->SetXY(140, $pos+10);
+		$pdf->SetXY(140, $pos);
 		//$pdf->Ln(5);
 		$pdf->writeHTMLCell($w=180, $h=0, $x=15, $y='',$remarksdetails, $border=0, $ln=1, $fill=0, $reseth=false, $align='right', $autopadding=true);
-		
+		/*
 		$footerdetails = '<table><thead><tr><th></th><th  style="font-weight:bold;" width="75%">For CONSOLIDATED PREMIUM RETAILERS</th></tr></thead><tbody>';
 		$footerdetails .= '<tr><td  width="50%"></td><td></td></tr>';
 		$footerdetails .= '<tr><td  width="50%"></td><td></td></tr>';
@@ -198,10 +213,10 @@ class PdfQuotation extends CI_Controller {
 		
 		//$pdf->SetXY(160, 150);
 		$pdf->Ln(5);
-		$pdf->writeHTMLCell($w=180, $h=0, $x=15, $y='',$footerdetails, $border=0, $ln=1, $fill=0, $reseth=false, $align='right', $autopadding=true);
-		
+		//$pdf->writeHTMLCell($w=180, $h=0, $x=15, $y='',$footerdetails, $border=1, $ln=1, $fill=0, $reseth=false, $align='right', $autopadding=true);
+		*/
 			
-		$pdf->Output('pdfexample.pdf', 'I');
+		$pdf->Output($data['qid'].'.pdf', 'I');
 		
 	}
 

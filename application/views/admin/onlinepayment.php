@@ -96,7 +96,7 @@
 				
 			</div>
 			<div class="span4"   style="margin-top:125px;">
-				<legend>Payment Way</legend>
+				<legend>Payment Gateway</legend>
 
 				<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
 
@@ -285,7 +285,7 @@
 							?>
 							</tbody>
 						</table>
-						<legend><?php echo "Rupees " .ucfirst($data['amtinwords'])." only /-"; ?></legend>
+						<legend><?php echo "Rupees " .ucfirst($data['amtinwords'])." only/-"; ?></legend>
 					</div>
 				</div>
 			</div>

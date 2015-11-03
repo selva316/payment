@@ -97,7 +97,7 @@ class PdfQuotation extends CI_Controller {
 		$pdf->Cell(25, 5, 'Contact :', 0, 1, 'L', 0, '', 0);
 		$pdf->Cell(25, 5, 'Address :', 0, 1, 'L', 0, '', 0);
 		
-		$pdf->SetFont('helvetica', 'B', 10);
+		$pdf->SetFont('helvetica', '', 10);
 		$pdf->SetXY(45, 35);
 		$pdf->Cell(25, 5, ucfirst($data['name']), 0, 1, 'L', 0, '', 0);
 		$pdf->SetXY(30, 40);
@@ -186,7 +186,8 @@ class PdfQuotation extends CI_Controller {
 		$remarksdetails = '<table><thead><tr><th  style="font-weight:bold;" width="50%"></th><th></th></tr></thead><tbody>';
 		$remarksdetails .= '<tr><td  width="50%"></td><td  style="text-align:right;"></td></tr>';
 		$remarksdetails .= '<tr><td  width="50%"></td><td  style="text-align:right;"></td></tr>';
-		$remarksdetails .= '<tr><td  width="95%">Rupees '.ucfirst($this->no_to_words($data['netamount']).' only /-').'</td><td   width="5%"></td></tr>';
+		$remarksdetails .= '<tr><td  width="50%"></td><td  style="text-align:right;"></td></tr>';
+		//$remarksdetails .= '<tr><td  width="95%">Rupees '.ucfirst($this->no_to_words($data['netamount']).' only/-').'</td><td   width="5%"></td></tr>';
 		$remarksdetails .= '<tr><td  width="50%"></td><td  style="text-align:right;"></td></tr>';
 		$remarksdetails .= '<tr><td  width="50%" style="font-weight:bold;">Term&Condition</td><td style="text-align:right;"></td></tr>';
 		$remarksdetails .= '<tr><td  width="90%" style="text-align:Justify;">'.$data['term'].'</td><td width="10%"></td></tr>';
@@ -222,7 +223,7 @@ class PdfQuotation extends CI_Controller {
 
 	public function no_to_words($no)
 	{   
-		$words = array('0'=> '' ,'1'=> 'one' ,'2'=> 'two' ,'3' => 'three','4' => 'four','5' => 'five','6' => 'six','7' => 'seven','8' => 'eight','9' => 'nine','10' => 'ten','11' => 'eleven','12' => 'twelve','13' => 'thirteen','14' => 'fouteen','15' => 'fifteen','16' => 'sixteen','17' => 'seventeen','18' => 'eighteen','19' => 'nineteen','20' => 'twenty','30' => 'thirty','40' => 'fourty','50' => 'fifty','60' => 'sixty','70' => 'seventy','80' => 'eighty','90' => 'ninty','100' => 'hundred ','1000' => 'thousand','100000' => 'lakh','10000000' => 'crore');
+		$words = array('0'=> '' ,'1'=> 'one' ,'2'=> 'two' ,'3' => 'three','4' => 'four','5' => 'five','6' => 'six','7' => 'seven','8' => 'eight','9' => 'nine','10' => 'ten','11' => 'eleven','12' => 'twelve','13' => 'thirteen','14' => 'fouteen','15' => 'fifteen','16' => 'sixteen','17' => 'seventeen','18' => 'eighteen','19' => 'nineteen','20' => 'twenty','30' => 'thirty','40' => 'fourty','50' => 'fifty','60' => 'sixty','70' => 'seventy','80' => 'eighty','90' => 'ninty','100' => 'Hundred ','1000' => 'Thousand','100000' => 'Lakh','10000000' => 'Crore');
 		if($no == 0)
 			return ' ';
 		else {

@@ -150,7 +150,7 @@
 								$disvalue = (($row['quantity'] * $row['price'] * $row['dis']) / 100);
 								
 								$taxvalue = ((($actualprice - $disvalue) * $row['taxpercent']) / 100);
-								$rowtotal = $actualprice - ($disvalue);
+								$rowtotal = $actualprice - ($disvalue + $taxvalue);
 							?>
 							<input type="text" name="tax[]" readonly id="tax_<?php echo $i ?>"  style="text-align:right;" value="<?php echo number_format(($taxvalue), 2, '.', ','); ?>" class="form-control totaltaxprice autocomplete_txt" value="0" autocomplete="off"></td>
 							<td>

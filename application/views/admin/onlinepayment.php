@@ -127,10 +127,10 @@
 							$disvalue = ((1 * $v['price'] * $v['dis']) / 100);
 							$taxvalue = ((($actualprice - $disvalue) * $v['taxpercent']) / 100);
 							//$rowtotal = $actualprice - ($disvalue + $taxvalue);
-							$rowtotal = $actualprice - ($disvalue);
+							$rowtotal = $actualprice - ($disvalue + $taxvalue);
 							
 							//$actualtotal = ($actualprice + $taxvalue)- $disvalue;
-							$actualtotal = $actualprice - $disvalue;
+							$actualtotal = $actualprice - ($disvalue + $taxvalue);
 							
 							echo '<input type="hidden" name="'.$itemname.'" value="'.$v['description'].'">';
 							echo '<input type="hidden" name="'.$amount.'" value="'.$actualtotal.'">';
@@ -196,7 +196,7 @@
 								$disvalue = (($v['quantity'] * $v['price'] * $v['dis']) / 100);
 								$taxvalue = ((($actualprice - $disvalue) * $v['taxpercent']) / 100);
 								//$rowtotal = $actualprice - ($disvalue + $taxvalue);
-								$rowtotal = $actualprice - ($disvalue);
+								$rowtotal = $actualprice - ($disvalue + $taxvalue);
 								
 								$actualtotal = ($actualprice + $taxvalue)- $disvalue;
 								

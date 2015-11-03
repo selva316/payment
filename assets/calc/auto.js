@@ -126,7 +126,7 @@ $(document).on('change keyup blur','.changesNo',function(){
 		
 		total = (parseFloat(price) * parseFloat(quantity)).toFixed(2);
 		
-		amt = parseFloat(total) - parseFloat(discount);
+		amt = parseFloat(total) - (parseFloat(discount) + parseFloat(tax)) ;
 		$('#total_'+id[1]).val(amt.toFixed(2));
 	}
 	

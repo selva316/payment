@@ -149,6 +149,7 @@
 	<script>
 	$(document).ready(function() {
 		$('#example').DataTable( {
+			"iDisplayLength": 100,
 			columnDefs: [ {
 				targets: [ 0 ],
 				orderData: [ 0, 1 ]

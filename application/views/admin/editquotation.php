@@ -182,7 +182,7 @@
 			
       			<div class="form-group">
 					
-					<div id="rupeeinwords"><?php echo 'Rupees '.ucfirst($amtinwords).' only /-';?></div>
+					<div id="rupeeinwords"><?php echo 'Rupees '.ucfirst($amtinwords).' only/-';?></div>
 				</div>
 				<div class="form-group">
 					<b>Term & Condition	</b></br>

@@ -162,7 +162,7 @@ class PdfQuotation extends CI_Controller {
 			$disvalue = (($row['quantity'] * $row['price'] * $row['dis']) / 100);
 			
 			$taxvalue = ((($actualprice - $disvalue) * $row['taxpercent']) / 100);
-			$rowtotal = $actualprice - ($disvalue);
+			$rowtotal = $actualprice - ($disvalue + $taxvalue);
 								
 			$itemdetails .= '<tr><td width="15%">'.$row['itemcode'].'</td><td  width="27%">'.$row['description'] .'</td><td width="7%">'.$row['quantity'] .'</td><td width="13%"  style="text-align:right;">'.number_format(($row['price']), 2, '.', ',') .'</td><td width="9%" style="text-align:right;">'.number_format(($row['taxpercent']), 2, '.', ',') .'</td><td  width="15%" style="text-align:right;">'.number_format(($row['dis']), 2, '.', ',') .'</td><td width="14%" style="text-align:right;">'.number_format(($rowtotal), 2, '.', ',') .'</td></tr>';
 			$pos = $pos + 10;

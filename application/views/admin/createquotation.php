@@ -69,8 +69,10 @@
 			</ul>
 		</nav>
 		<div class="panel panel-success">
-	<div class="panel-heading">
-		<center><label><b>Quotation</b></label></center></div></div>		
+			<div class="panel-heading">
+				<center><label><b>Quotation</b></label></center>
+			</div>
+		</div>		
 		<div class="container-fluid">
 		
     <!-- Begin page content -->

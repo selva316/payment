@@ -1,6 +1,7 @@
 <?php
 	$data = json_decode($data,true);
 	//print_r($data);
+	
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -97,7 +98,7 @@
 			</div>
 			<div class="span4"   style="margin-top:125px;">
 				<legend>Payment Gateway</legend>
-
+				<?php echo $cartHtml; ?>
 				<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
 
 					<!-- Identify your business so that you can collect the payments. -->

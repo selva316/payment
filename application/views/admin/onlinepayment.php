@@ -285,7 +285,7 @@
 							?>
 							</tbody>
 						</table>
-						<legend><?php echo "Rupees " .ucfirst($data['amtinwords'])." only/-"; ?></legend>
+					<!--	<legend><?php echo "Rupees " .ucfirst($data['amtinwords'])." only/-"; ?></legend>-->
 					</div>
 				</div>
 			</div>

@@ -20,9 +20,42 @@ class Onlinepayment extends CI_Controller {
 	
 	public function index()
 	{
+		//ini_set('include_path','../..');
+		/*
+		$this->load->library('signature/merchant/cart/html/MerchantHTMLCartFactory');
+		$this->load->library('signature/common/cart/xml/XMLCartFactory');
+		$this->load->library('signature/common/signature/SignatureCalculator');
+		*/
+		
+		$this->load->library('signature/MerchantHTMLCartFactory');
+		$this->load->library('signature/XMLCartFactory');
+		$this->load->library('signature/SignatureCalculator');
+		
+		
 		$hashqid = $_GET['qid'];
 		$data = array();
 		$this->load->model('quotationmodel');
+		$quotationdetails = $this->quotationmodel->fetchQuotationDetails($hashqid);
+		
+		// seller credentials - enter your own here
+		$merchantID="ALLF7QV9XOHDI";
+		$accessKeyID="AKIAJU37QL3EGT44PQFQ";
+		$secretKeyID="ABok3jwHNgQSZMtho8yu5iHZm45QY0Hq4v3dwMKN";
+
+		/////////////////////////////////////////////////////////
+		// XML cart demo
+		// Create the cart and the signature
+		/////////////////////////////////////////////////////////
+		$cartFactory = new XMLCartFactory();
+		$calculator = new SignatureCalculator();
+
+		$cart = $cartFactory->getSignatureInput($merchantID, $accessKeyID,$quotationdetails);
+		$signature = $calculator->calculateRFC2104HMAC($cart, $secretKeyID);
+		$cartHtml = $cartFactory->getCartHTML($merchantID, $accessKeyID, $signature, $quotationdetails);
+
+		$data['cartHtml'] = $cartHtml;
+	
+		
 		$data['data'] = json_encode($this->quotationmodel->fetchQuotationDetails($hashqid));
 		
 		$this->load->view('admin/onlinepayment',$data);

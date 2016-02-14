@@ -24,7 +24,7 @@ class MerchantHTMLCartFactory extends HTMLCartFactory {
    {
    }
 
-   public function getCart($merchantID, $awsAccessKeyID, $quotationdetails) {
+   public function getCart($merchantID, $awsAccessKeyID, $quotationdetails, $hashqid) {
        $parameterMap = $this->getCartMap($merchantID, $awsAccessKeyID);
        return $this->getCartFromMap($merchantID, $awsAccessKeyID, $parameterMap);
    }
@@ -56,7 +56,7 @@ class MerchantHTMLCartFactory extends HTMLCartFactory {
    /**
     * Construct a very basic cart with one item.
     */
-   public function getCartHTML($merchantID, $awsAccessKeyID, $signature, $quotationdetails) {
+   public function getCartHTML($merchantID, $awsAccessKeyID, $signature, $quotationdetails, $hashqid) {
        $cartInput = $this->getCart($merchantID, $awsAccessKeyID);
        return $this->getCartHTMLFromCartInput($merchantID, $awsAccessKeyID, $signature,
                                  $cartInput);
@@ -66,7 +66,7 @@ class MerchantHTMLCartFactory extends HTMLCartFactory {
    /**
     * Get the input to generate the hmac-sha1 signature.
     */
-   public function getSignatureInput($merchantID, $awsAccessKeyID,$quotationdetails) {
+   public function getSignatureInput($merchantID, $awsAccessKeyID, $quotationdetails, $hashqid) {
       $parameterMap = $this->getCartMap($merchantID, $awsAccessKeyID);
       return $this->getSignatureInputFromMap($parameterMap);
    }

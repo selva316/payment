@@ -27,8 +27,8 @@ class XMLCartFactory extends CartFactory {
     * Base 64 encode the cart.
     * 
     */
-    public function getCart($merchantID, $awsAccessKeyID, $quotationdetails) {
-        $cartXML = $this->getCartXML($merchantID, $awsAccessKeyID, $quotationdetails);
+    public function getCart($merchantID, $awsAccessKeyID, $quotationdetails, $hashqid) {
+        $cartXML = $this->getCartXML($merchantID, $awsAccessKeyID, $quotationdetails, $hashqid);
         return base64_encode($cartXML);
     }
    
@@ -36,21 +36,21 @@ class XMLCartFactory extends CartFactory {
     * Returns the concatenated cart used for signature generation.
     * @see CartFactory
     */
-   public function getSignatureInput($merchantID, $awsAccessKeyID,$quotationdetails) {
-        return $this->getCartXML($merchantID, $awsAccessKeyID, $quotationdetails);
+   public function getSignatureInput($merchantID, $awsAccessKeyID,$quotationdetails, $hashqid) {
+        return $this->getCartXML($merchantID, $awsAccessKeyID, $quotationdetails, $hashqid);
    }
 
    /**
     * Returns a finalized full cart html including the base 64 encoded cart,
     * signature, and buy button image link.
     */
-   public function getCartHTML($merchantID, $awsAccessKeyID, $signature, $quotationdetails) {
+   public function getCartHTML($merchantID, $awsAccessKeyID, $signature, $quotationdetails, $hashqid) {
         $cartHTML = '';
 
 	$cartHTML = $cartHTML . CartFactory::$CART_JAVASCRIPT_START;
 	$cartHTML = $cartHTML . CartFactory::$CBA_BUTTON_DIV;       
 	// construct the order-input section
-	$encodedCart = $this->getCart($merchantID, $awsAccessKeyID, $quotationdetails);
+	$encodedCart = $this->getCart($merchantID, $awsAccessKeyID, $quotationdetails, $hashqid);
       
 		$input = ereg_replace("\\[ORDER\\]", $encodedCart, XMLCartFactory::$CART_ORDER_INPUT_FIELD);
         $input = ereg_replace("\\[SIGNATURE\\]", $signature, $input);
@@ -79,12 +79,12 @@ class XMLCartFactory extends CartFactory {
      * @param merchantID
      * @param awsAccessKeyID
      */
-    private function getCartXML($merchantID, $awsAccessKeyID, $quotationdetails) {
+    private function getCartXML($merchantID, $awsAccessKeyID, $quotationdetails, $hashqid) {
 		//print_r($quotationdetails);
 		
         $str = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" .
 	    "<Order xmlns=\"http://payments.amazon.com/checkout/2008-06-15/\">" .
-	    "    <ClientRequestId>123457</ClientRequestId>" .
+	    "    <ClientRequestId>".$hashqid."</ClientRequestId>" .
 	    "    <Cart>" .
 	    "    <Items>" ;
 	    foreach($quotationdetails['itemdetails'] as $row)

@@ -48,9 +48,9 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'gizmolandtree.c2oi1njd8grf.ap-southeast-1.rds.amazonaws.com';
+$db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
-$db['default']['password'] = 'gizmoland316';
+$db['default']['password'] = '';
 $db['default']['database'] = 'payment';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';

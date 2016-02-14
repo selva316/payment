@@ -37,7 +37,7 @@ protected static $STANDARD_CHECKOUT_WIDGET_SCRIPT = "<script type=\"text/javascr
 	 * @param merchantID
 	 * @param awsAccessKeyID
 	 */
-	public abstract function getCart($merchantID, $awsAccessKeyID, $quotationdetails);
+	public abstract function getCart($merchantID, $awsAccessKeyID, $quotationdetails, $hashqid);
 
 
 	/**
@@ -46,7 +46,7 @@ protected static $STANDARD_CHECKOUT_WIDGET_SCRIPT = "<script type=\"text/javascr
 	 * @param merchantID
 	 * @param awsAccessKeyID
 	 */
-	public abstract function getSignatureInput($merchantID, $awsAccessKeyID, $quotationdetails);
+	public abstract function getSignatureInput($merchantID, $awsAccessKeyID, $quotationdetails, $hashqid);
 
 	/**
 	 * Returns a finalized full cart HTML including the base 64 encoded cart,
@@ -56,6 +56,6 @@ protected static $STANDARD_CHECKOUT_WIDGET_SCRIPT = "<script type=\"text/javascr
 	 * @param awsAccessKeyID
 	 * @param signature
 	 */
-	public abstract function getCartHTML($merchantID, $awsAccessKeyID, $signature, $quotationdetails);
+	public abstract function getCartHTML($merchantID, $awsAccessKeyID, $signature, $quotationdetails, $hashqid);
 }
 ?>

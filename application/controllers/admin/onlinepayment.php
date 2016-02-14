@@ -44,7 +44,7 @@ class Onlinepayment extends CI_Controller {
 		}
 		else
 		{
-				
+
 			$quotationdetails = $this->quotationmodel->fetchQuotationDetails($hashqid);
 			
 			// seller credentials - enter your own here
@@ -59,9 +59,9 @@ class Onlinepayment extends CI_Controller {
 			$cartFactory = new XMLCartFactory();
 			$calculator = new SignatureCalculator();
 
-			$cart = $cartFactory->getSignatureInput($merchantID, $accessKeyID,$quotationdetails);
+			$cart = $cartFactory->getSignatureInput($merchantID, $accessKeyID, $quotationdetails, $hashqid);
 			$signature = $calculator->calculateRFC2104HMAC($cart, $secretKeyID);
-			$cartHtml = $cartFactory->getCartHTML($merchantID, $accessKeyID, $signature, $quotationdetails);
+			$cartHtml = $cartFactory->getCartHTML($merchantID, $accessKeyID, $signature, $quotationdetails, $hashqid);
 
 			$data['cartHtml'] = $cartHtml;
 		

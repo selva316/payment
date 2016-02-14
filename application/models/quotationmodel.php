@@ -385,6 +385,12 @@ class Quotationmodel extends CI_Model {
 		}
 	}
 
+
+	public function paymentTransaction($data)
+	{
+		$this->db->insert('py_amzn_pmts', $data); 
+	}
+
 	function edit_product($data)
 	{
 		$data = array();
@@ -433,6 +439,7 @@ class Quotationmodel extends CI_Model {
 			}
 		}
 	}
+
 	
 }
 

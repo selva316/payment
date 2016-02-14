@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Reports</title>
+    <title>Payment Page</title>
     <!-- Bootstrap Core CSS -->
 	<link rel="stylesheet" href="<?php echo base_url();?>assets/bootstrap/dist/css/bootstrap.min.css" />
 	<!-- Bootstrap Responsive CSS -->
@@ -31,13 +31,14 @@
 	<?php
 		if(isset($_GET))
 		{
-			$amznPmtsOrderIds = $_GET['amznPmtsOrderIds'];
-			$amznPmtsReqId = $_GET['amznPmtsReqId'];
-			$amznPageSource = $_GET['amznPageSource'];
-			$merchName = $_GET['merchName'];
-			$amznPmtsYALink = $_GET['amznPmtsYALink'];
-			$amznPmtsPaymentStatus = $_GET['amznPmtsPaymentStatus'];
-			$actionToken = $_GET['actionToken'];
+			$data = array();
+			$data['amznPmtsOrderIds'] = $_GET['amznPmtsOrderIds'];
+			$data['amznPmtsReqId'] = $_GET['amznPmtsReqId'];
+			$data['amznPageSource'] = $_GET['amznPageSource'];
+			$data['merchName'] = $_GET['merchName'];
+			$data['amznPmtsYALink'] = $_GET['amznPmtsYALink'];
+			$data['amznPmtsPaymentStatus'] = $_GET['amznPmtsPaymentStatus'];
+			
 			
 		}
 		else

@@ -15,13 +15,16 @@ class Success extends CI_Controller {
 		print_r($_GET);		
 		if(isset($_GET) && count($_GET)>0)
 		{
-			$amznPmtsOrderIds = $_GET['amznPmtsOrderIds'];
-			$amznPmtsReqId = $_GET['amznPmtsReqId'];
-			$amznPageSource = $_GET['amznPageSource'];
-			$merchName = $_GET['merchName'];
-			$amznPmtsYALink = $_GET['amznPmtsYALink'];
-			$amznPmtsPaymentStatus = $_GET['amznPmtsPaymentStatus'];
-			//$actionToken = $_GET['actionToken'];
+			$data = array();
+			$data['amznPmtsOrderIds'] = $_GET['amznPmtsOrderIds'];
+			$data['amznPmtsReqId'] = $_GET['amznPmtsReqId'];
+			$data['amznPageSource'] = $_GET['amznPageSource'];
+			$data['merchName'] = $_GET['merchName'];
+			$data['amznPmtsYALink'] = $_GET['amznPmtsYALink'];
+			$data['amznPmtsPaymentStatus'] = $_GET['amznPmtsPaymentStatus'];
+
+			$this->load->model('quotationmodel');
+			$id = $this->quotationmodel->paymentTransaction($data);
 			
 		}
 		else

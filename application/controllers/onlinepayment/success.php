@@ -12,7 +12,7 @@ class Success extends CI_Controller {
 	
 	public function index()
 	{
-		
+		print_r($_GET);		
 		if(isset($_GET) && count($_GET)>0)
 		{
 			$amznPmtsOrderIds = $_GET['amznPmtsOrderIds'];

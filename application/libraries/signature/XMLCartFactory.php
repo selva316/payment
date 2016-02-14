@@ -103,7 +103,7 @@ class XMLCartFactory extends CartFactory {
 		
 		$str .="    </Items>" .
 	    "    </Cart>";
-	    $str .= "<ReturnUrl>http://52.74.245.165/payment/onlinepayment/success</ReturnUrl>"
+	    $str .= "<ReturnUrl>http://52.74.245.165/payment/onlinepayment/success</ReturnUrl>";
 	    $str .= "</Order>";
 
 		return $str;

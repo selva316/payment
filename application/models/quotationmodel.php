@@ -96,6 +96,22 @@ class Quotationmodel extends CI_Model {
 		redirect('admin/homepage');
 	}
 	
+	public function statusDetails($qid)
+	{
+		$status = '';
+		$query = $this->db->query("select status from py_quotation where hashqid = '".$qid."'");
+		if($query->num_rows() > 0)
+		{
+			$result = $query->result_array();
+			$data = array();
+			foreach($result as $row)
+			{
+				$status = $row['status'];
+			}
+		}
+		return $status;
+	}
+
 	public function fetchQuotationDetails($qid)
 	{
 		$query = $this->db->query("select * from py_quotation where hashqid = '".$qid."'");

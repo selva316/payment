@@ -46,7 +46,7 @@ class CreateQuotation extends CI_Controller {
 			$data['refnumber'] = $this->input->post('refnumber');
 			$data['quotationdate'] = strtotime($this->input->post('quotationdate'));
 			$data['timestamp'] = time();
-			$data['status'] = 'Pending';
+			$data['status'] = 'Initiated';
 			$data['subtotal'] = $this->input->post('sub_total');
 			$data['taxtotal'] = $this->input->post('taxtotal');
 			$data['roundoff'] = $this->input->post('round_off');
@@ -77,7 +77,7 @@ class CreateQuotation extends CI_Controller {
 			$data['refnumber'] = $this->input->post('refnumber');
 			$data['quotationdate'] = strtotime($this->input->post('quotationdate'));
 			$data['timestamp'] = time();
-			$data['status'] = 'Pending';
+			$data['status'] = 'Initiated';
 			$data['subtotal'] = $this->input->post('sub_total');
 			$data['taxtotal'] = $this->input->post('taxtotal');
 			$data['roundoff'] = $this->input->post('round_off');

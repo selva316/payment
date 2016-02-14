@@ -21,7 +21,7 @@ class Success extends CI_Controller {
 			$merchName = $_GET['merchName'];
 			$amznPmtsYALink = $_GET['amznPmtsYALink'];
 			$amznPmtsPaymentStatus = $_GET['amznPmtsPaymentStatus'];
-			$actionToken = $_GET['actionToken'];
+			//$actionToken = $_GET['actionToken'];
 			
 		}
 		else

@@ -1,4 +1,5 @@
 <?php
+	error_reporting(0);
 	if($this->session->userdata('roleid')!=1){
 		// echo site_url('login');
 		print "<script>window.location.href='".site_url('login')."';</script>";

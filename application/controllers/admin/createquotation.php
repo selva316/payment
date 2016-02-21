@@ -51,7 +51,7 @@ class CreateQuotation extends CI_Controller {
 			$data['taxtotal'] = $this->input->post('taxtotal');
 			$data['roundoff'] = $this->input->post('round_off');
 			$data['netamount'] = $this->input->post('netamount');
-		
+			$data['CUSTOMERPAYMENT_STATUS'] = 'Not yet';
 			
 			$this->load->model('quotationmodel');
 			$id = $this->quotationmodel->add_quotation($data);

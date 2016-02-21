@@ -28,24 +28,47 @@
 </head>
 
 <body>
-	<?php
-		if(isset($_GET))
-		{
-			$data = array();
-			$data['amznPmtsOrderIds'] = $_GET['amznPmtsOrderIds'];
-			$data['amznPmtsReqId'] = $_GET['amznPmtsReqId'];
-			$data['amznPageSource'] = $_GET['amznPageSource'];
-			$data['merchName'] = $_GET['merchName'];
-			$data['amznPmtsYALink'] = $_GET['amznPmtsYALink'];
-			$data['amznPmtsPaymentStatus'] = $_GET['amznPmtsPaymentStatus'];
-			
-			
-		}
-		else
-		{
-			echo "<H1>Payment Failed!!!</H1>";
-		}
-	?>
+	<div>
+		<div class="row" style="margin-top: 50px;">
+
+			<div class="col-md-1">
+				
+			</div>
+			<div class="col-md-5">
+				<img src="<?php echo base_url();?>img/gizmoland.png" alt="gizmoland" />
+			</div>
+			<div class="col-md-3"></div>
+			<div class="col-md-3">
+				<img src="<?php echo base_url();?>img/gizmoland.png" alt="gizmoland" />
+			</div>
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-2">
+			</div>
+			<?php if($amznPmtsPaymentStatus == 'APPROVED') { ?>
+			<div class="col-md-8" style="background-color: #b5edf9; padding: 50px 88px; text-align: center; margin-top: 50px;">
+				<span style="color:#4e971a;font-size:28px;font-weight:bold;">			
+					THANK YOU! YOUR PAYMENT HAS BEEN
+				</span>
+				<span style="color:#4e971a;font-size:28px;font-weight:bold;">			
+					SUCCESSFULLY COMPLETED.
+				</span>
+			</div>
+			<?php } else { ?>
+			<div class="col-md-8" style="background-color: #b5edf9; padding: 50px 115px; text-align: center; margin-top: 50px;">
+				<span style="color:#de3939;font-size:28px;font-weight:bold;">			
+					SORRY! YOUR PAYMENT HAS BEEN FAILED
+				</span>
+				<span style="color:#de3939;font-size:28px;font-weight:bold;">			
+					CONTACT ADMINISTRATOR!!!.
+				</span>
+			</div>
+			<?php } ?>
+			<div class="col-md-2">
+			</div>
+		</div>
+	</div>
 </body>
 
 </html>

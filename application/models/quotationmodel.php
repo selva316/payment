@@ -440,7 +440,13 @@ class Quotationmodel extends CI_Model {
 		}
 	}
 
-	
+	function online_update_quotation($qid, $data)
+	{
+		
+		$this->db->where('HASHQID', $qid);
+		
+		$this->db->update('py_quotation', $data);
+	}
 }
 
 /* End of file Logindetailsmodel.php */

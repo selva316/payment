@@ -60,6 +60,9 @@
 				<li  class="test">
 					<a href="<?php echo site_url('admin/product');?>">Product</a>
 				</li>
+				<li  class="test">
+					<a href="<?php echo site_url('login');?>">Logout</a>
+				</li>
 			</ul>
 		</nav>
 		<div class="panel panel-success">
@@ -87,6 +90,7 @@
 									<th>Customer</th>
 									<th>Total</th>
 									<th>Status</th>
+									<th>Customer Payment</th>
 									<th>Action</th>
 								</tr>
 							</thead>
@@ -103,6 +107,7 @@
 										echo "<td>".ucfirst($row['NAME'])."</td>";
 										echo "<td>".number_format(($row['NETAMOUNT']), 2, '.', ',')."</td>";
 										echo "<td>".$row['STATUS']."</td>";
+										echo "<td>".ucfirst(strtolower($row['CUSTOMERPAYMENT_STATUS']))."</td>";
 										echo "<td><a href=".site_url('admin/editquotation')."?qid=".$row['HASHQID'].">Edit</a>";
 										echo "<a style='margin-left:20px;' target='_blank' href=".site_url('admin/pdfquotation')."?qid=".$row['HASHQID'].">Pdf</a>";
 										echo "<a style='margin-left:20px;' target='_blank' href=".site_url('admin/onlinepayment')."?qid=".$row['HASHQID'].">Copy</a>";

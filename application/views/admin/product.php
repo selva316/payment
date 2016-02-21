@@ -60,6 +60,9 @@
 				<li  class="test">
 					<a href="<?php echo site_url('admin/product');?>">Product</a>
 				</li>
+				<li  class="test">
+					<a href="<?php echo site_url('login');?>">Logout</a>
+				</li>
 			</ul>
 		</nav>
 		<div class="panel panel-success">

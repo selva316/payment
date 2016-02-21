@@ -12,7 +12,7 @@ class Success extends CI_Controller {
 	
 	public function index()
 	{
-		print_r($_GET);		
+		//print_r($_GET);
 		if(isset($_GET) && count($_GET)>0)
 		{
 			$data = array();
@@ -25,7 +25,13 @@ class Success extends CI_Controller {
 
 			$this->load->model('quotationmodel');
 			$id = $this->quotationmodel->paymentTransaction($data);
+
+			$qdata = array();
+			$qdata['CUSTOMERPAYMENT_STATUS'] = $_GET['amznPmtsPaymentStatus'];
+
+			$this->quotationmodel->online_update_quotation($_GET['amznPmtsReqId'],$qdata);
 			
+			$this->load->view('onlinepayment/success',$data);
 		}
 		else
 		{

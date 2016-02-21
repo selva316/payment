@@ -1,4 +1,5 @@
 <?php
+	error_reporting(0);
 	require_once("CartFactory.php");
 /*	
  * Returns a simple static cart to generate a signature from,
